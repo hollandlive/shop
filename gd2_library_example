@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--this is an example of using GD2 library to work with images. Live example on www.arthem.info/-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="PHP function for creating a thumbnail">
+    <meta name="keywords" content="PHP, create thumbnail">
+    <meta name="author" content="Art Aksenovs">
+    <title>Arthem.Info PHP</Title>
+    <!--Links to external fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Oxygen|Cuprum:700&subset=cyrillic,latin' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300&subset=cyrillic,cyrillic-ext' rel='stylesheet' type='text/css'>
+    <!--links to external stylesheets-->
+    <!--<link href="css/main.css" rel="stylesheet" type="text/css">-->
+    <link href="assets/css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- Arthem Info CSS -->
+    <link href="assets/css/vitality-blue.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="container">
+<h5 class="text-info">This is a test for Nationalebeeldbank <br><small>(example of using GD2 library)</small></h5>
+<h5 class="text-danger">Original Image</h5>
+<div class="row">
+<div class="col-md-4">
+<p class="text-info">This is a test of creating a thumbnail for an image without thumbnail with text"No image available"</p>
+<?php
+$image=imagecreatetruecolor(80, 60);
+$bc=imagecolorallocate($image, 255, 200, 180);
+$fc=imagecolorallocate($image, 0, 0, 0);
+imagefilledrectangle($image, 0, 0, 80, 60, $bc);
+imagestring($image, 5, 20, 5, "No", $fc);
+imagestring($image, 5, 10, 20, "Image", $fc);
+imagestring($image, 5, 0, 35, "Available", $fc);
+imagejpeg($image, "noimage.jpg");
+imagedestroy($image);
+echo "Image created";
+/*This script will create a "No Image Available" thumbnail 80x60px with RGB background color 255,200,180, RGB font color 0,0,0, will create "noimage.jpg" with imagejpeg function and then destroy imagedestroy variable $image with imagedestroy function*/
+?>
+
+<p><img src="noimage.jpg">Image resampled 100x60</p>
+<h5 class="text-info">The end of the test 1</h5>
+</div>
+
+<div class="col-md-4">
+<p class="text-info">This is a test of creating another thumbnail with text "There is no image"</p>
+<?php
+$image2 = imagecreatetruecolor(300, 300);
+
+$bc2 = imagecolorallocate($image2, 150, 150, 150);
+$fc2 = imagecolorallocate($image2, 50, 50, 50);
+
+imagefilledrectangle($image2, 0, 0, 80, 60, $bc2);
+imagestring($image2, 5, 20, 5, "There", $fc2);
+imagestring($image2, 5, 10, 20, "Is", $fc2);
+imagestring($image2, 5, 0, 35, "NO Image", $fc2);
+
+imagejpeg($image2, "noimage2.jpg");
+imagedestroy($image2);
+
+echo "Image created";
+/*This script will create a "There is NO Image" thumbnail 300x300px with RGB background color 150, 150, 150, RGB font color 50, 50, 50, will create "noimage2.jpg" thumbnail 300x300. Potentially it can be stored in MySQL database, but I don't use it in this example... */
+
+?>
+<p><img src="noimage2.jpg">No Image 300x300</p>
+<h5 class="text-info">The end of the test 2</h5>
+</div>
+
+<div class="col-md-4">
+<p class="text-danger">This is a test of creating a thumbnail for an image"</p>
+<p><img src="assets/img/w006.jpg"></p>
+<?php
+$image = file_get_contents("assets/img/w006.jpg");
+$source = imagecreatefromstring($image);
+$width = imagesx($source);
+$height = imagesy($source);
+$thumb = imagecreatetruecolor(100, 60);
+imagecopyresampled($thumb, $source, 0, 0, 0, 0, 100, 60, $width, $height);
+imagejpeg($thumb, "newthumb.jpg");
+echo "image created";
+/*This script will create a thumbnail for a banner */
+?>
+<p><img src="newthumb3.jpg"></p>
+<h5 class="text-info">The end of the test 3</h5>
+</div>
+</div>
+</div>
+
+</body>
+</html>
